@@ -1,24 +1,24 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Forms from './components/Forms'
+import ProductList from './components/ProductList'
+import { Card } from '@material-ui/core'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Card className="main">
+        <div className="form">
+          <Forms bill={true} />
+        </div>
+        <div className="form">
+          <Forms bill={false} />
+        </div>
+      </Card>
+      <div>
+        <ProductList />
+      </div>
     </div>
   );
 }
