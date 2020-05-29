@@ -6,7 +6,8 @@ const productData = [
         "productName": "Stockholm Dining Table",
         "qty": 8,
         "unitPrice": 529,
-        "index": uuidv4()
+        "index": uuidv4(),
+        "notes": "If possible deliver these first"
     },
     {
         "productId": "100041",

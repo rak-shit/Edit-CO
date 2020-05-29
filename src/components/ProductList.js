@@ -27,9 +27,10 @@ export class ProductList extends Component {
             productList: productData,
             productId: "",
             productName: "",
+            notes: "",
             qty: 0,
             unitPrice: 0,
-            save: false,
+            changes: [],
             add: false
         }
     }
@@ -40,33 +41,69 @@ export class ProductList extends Component {
             "productName": "",
             "qty": 0,
             "unitPrice": 0,
+            "notes": "",
             "index": null
         }
         const pList = this.state.productList
         pList.push(newObj)
         this.setState({
             productList: pList,
+            add: true
         })
     }
 
-    handleChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+    handleChange = (event, index, i) => {
+        if (this.state.add === true) {
+            this.setState({
+                [event.target.name]: event.target.value
+            })
+        } else {
+            const item = {
+                "index": i,
+                "col": event.target.name,
+                "val": event.target.value
+            }
+            var changes = this.state.changes
+            changes.push(item)
+            this.setState({
+                changes: changes
+            })
+        }
     }
 
     handleSave = () => {
-        const pList = this.state.productList
-        const len = pList.length
-        pList[len-1].productId = this.state.productId
-        pList[len-1].productName = this.state.productName
-        pList[len-1].qty = this.state.qty
-        pList[len-1].unitPrice = this.state.unitPrice
-        pList[len-1].index = uuidv4()
-        this.setState({
-            productList: pList
-        })
-        console.log(productData)
+        if (this.state.add === true) {
+            const pList = this.state.productList
+            const len = pList.length
+            pList[len-1].productId = this.state.productId
+            pList[len-1].productName = this.state.productName
+            pList[len-1].qty = this.state.qty
+            pList[len-1].unitPrice = this.state.unitPrice
+            pList[len-1].notes = this.state.notes
+            pList[len-1].index = uuidv4()
+            this.setState({
+                productList: pList,
+                add: false
+            })
+            console.log(productData)
+        } else {
+            const pList = this.state.productList
+            const changes = this.state.changes
+            changes.map(item => {
+                if (item.col === "unitPrice") {
+                    pList[item.index].unitPrice = item.val
+                } else if(item.col === "qty") {
+                    pList[item.index].qty = item.val
+                } else {
+                    pList[item.index].notes = item.val
+                }
+            })
+            this.setState({
+                productList: pList,
+                changes: []
+            })
+            console.log(productData)
+        }
     }
 
    handleDelete = (index, i) => {
@@ -86,13 +123,13 @@ export class ProductList extends Component {
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell aligb="left">Product ID</TableCell>
-                                    <TableCell align="left">Product Name</TableCell>
-                                    <TableCell align="left">QTY</TableCell>
-                                    <TableCell align="left">Unit Price</TableCell>
-                                    <TableCell align="left">Total Price</TableCell>
-                                    <TableCell align="left">Notes</TableCell>
-                                    <TableCell align="left"></TableCell>
+                                    <TableCell aligb="left" className={classes.tableHead}>Product ID</TableCell>
+                                    <TableCell align="left" className={classes.tableHead}>Product Name</TableCell>
+                                    <TableCell align="left" className={classes.tableHead}>QTY</TableCell>
+                                    <TableCell align="left" className={classes.tableHead}>Unit Price</TableCell>
+                                    <TableCell align="left" className={classes.tableHead}>Total Price</TableCell>
+                                    <TableCell align="left" className={classes.tableHead}>Notes</TableCell>
+                                    <TableCell align="left" className={classes.tableHead}></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -103,7 +140,7 @@ export class ProductList extends Component {
                                                 id="outlined-primary"
                                                 name="productId"
                                                 defaultValue={row.productId}
-                                                onChange={this.handleChange}
+                                                onChange={(event) => this.handleChange(event, row.index, i)}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
@@ -118,7 +155,7 @@ export class ProductList extends Component {
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
-                                                onChange={this.handleChange}
+                                                onChange={(event) => this.handleChange(event, row.index, i)}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -130,7 +167,7 @@ export class ProductList extends Component {
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
-                                                onChange={this.handleChange}
+                                                onChange={(event) => this.handleChange(event, row.index, i)}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -142,7 +179,7 @@ export class ProductList extends Component {
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
-                                                onChange={this.handleChange}
+                                                onChange={(event) => this.handleChange(event, row.index, i)}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -161,13 +198,18 @@ export class ProductList extends Component {
                                             />
                                         </TableCell>
                                         <TableCell align="right">
-                                            <TextareaAutosize aria-label="minimum height" rowsMin={2} placeholder="Additional Information" />
+                                            <TextareaAutosize 
+                                                aria-label="minimum height" 
+                                                rowsMin={2}
+                                                name="notes"
+                                                value={row.notes} 
+                                                placeholder="Additional Information" />
                                         </TableCell>
                                         <TableCell align="right">
                                             <Button
                                                 variant="contained"
                                                 color="secondary"
-                                                className={classes.button}
+                                                className={classes.delbtn}
                                                 startIcon={<DeleteIcon />}
                                                 onClick={() => this.handleDelete(row.index, i)}
                                             >

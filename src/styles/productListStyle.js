@@ -1,6 +1,7 @@
 const productStyles = theme => ({
     table: {
        minWidth: 650,
+       fontFamily: 'Roboto, sans-serif'
     },
     outerDiv: {
         display: "inline"
@@ -16,13 +17,22 @@ const productStyles = theme => ({
     savebtn: {
        padding: "10px",
        margin: "10px",
+       fontWeight: 600
     },
     addbtn: {
        padding: "10px",
        margin: "10px",
+       fontWeight: 600
     },
     productCard: {
         margin: "10px",
+    },
+    tableHead: {
+        fontWeight: 600,
+        fontSize: "110%"
+    },
+    delbtn: {
+        fontWeight: 600
     }
 });
 

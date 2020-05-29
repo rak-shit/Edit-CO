@@ -36,8 +36,8 @@ export class Forms extends Component {
                 <Card className={classes.block}>
                     <div className="heading">
                         {
-                            this.props.bill ? <h3>Billing Address</h3>
-                            : <h3>Shipping Address</h3>
+                            this.props.bill ? <h2>Billing Address</h2>
+                            : <h2>Shipping Address</h2>
                         }
                     </div>
                     <div className="form">
