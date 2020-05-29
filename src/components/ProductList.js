@@ -74,7 +74,7 @@ export class ProductList extends Component {
         const { classes } = this.props
         return (
             <div>
-                <Card>
+                <Card className={classes.productCard}>
                     <TableContainer component={Paper}>
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
@@ -171,7 +171,8 @@ export class ProductList extends Component {
                                 ))}
                             </TableBody>
                         </Table>
-                        <div className={classes.eventbuttons}>
+                        <div classname={classes.outerDiv}>
+                        <div className={classes.addiv}>
                             <Button 
                                 variant="contained" 
                                 size="small"
@@ -181,6 +182,8 @@ export class ProductList extends Component {
                             >
                                 ADD PRODUCT
                             </Button>
+                        </div>
+                        <div className={classes.savediv}>
                             <Button 
                                 variant="contained" 
                                 startIcon={<SaveIcon />}
@@ -191,6 +194,7 @@ export class ProductList extends Component {
                             >
                                 SAVE
                             </Button>
+                        </div>
                         </div>
                     </TableContainer>
                 </Card>
