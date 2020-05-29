@@ -63,6 +63,12 @@ export class ProductList extends Component {
         })
         console.log(productData)
     }
+
+    handleDelete = (index) => {
+        this.setState({
+            productList: this.state.productList.filter(item => item.productId !== index)
+        })
+    }
     
     render() {
         const { classes } = this.props
@@ -156,6 +162,7 @@ export class ProductList extends Component {
                                                 color="secondary"
                                                 className={classes.button}
                                                 startIcon={<DeleteIcon />}
+                                                onClick={() => this.handleDelete(row.productId)}
                                             >
                                                 Delete
                                             </Button>
