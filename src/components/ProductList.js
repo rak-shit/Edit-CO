@@ -11,27 +11,61 @@ import {
     Button,
     TextareaAutosize} from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
+import SaveIcon from '@material-ui/icons/Save';
 import productStyles from '../styles/productListStyle'
 import PropTypes from 'prop-types'
 import productData from '../json-data/product-data'
 
 const styles = productStyles
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
 
 export class ProductList extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
-            productList: productData
+            productList: productData,
+            productId: "",
+            productName: "",
+            qty: 0,
+            unitPrice: 0
         }
+    }
+
+    handleAdd = () => {
+        const newObj = {
+            "productId": "",
+            "productName": "",
+            "qty": 0,
+            "unitPrice": 0
+        }
+        const pList = this.state.productList
+        pList.push(newObj)
+        this.setState({
+            productList: pList
+        })
+    }
+
+    handleEdit = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    handleSave = () => {
+        const pList = this.state.productList
+        const len = pList.length
+        pList[len-1].productId = this.state.productId
+        pList[len-1].productName = this.state.productName
+        pList[len-1].qty = this.state.qty
+        pList[len-1].unitPrice = this.state.unitPrice
+        this.setState({
+            productList: pList
+        })
+        console.log(productData)
     }
     
     render() {
         const { classes } = this.props
-        console.log(this.state.productList)
         return (
             <div>
                 <Card>
@@ -54,44 +88,48 @@ export class ProductList extends Component {
                                         <TableCell component="th" scope="row">
                                             <TextField
                                                 id="outlined-primary"
-                                                label=""
-                                                value={row.productId}
+                                                name="productId"
+                                                defaultValue={row.productId}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
+                                                onChange={this.handleEdit}
                                                 size="small"
                                             />
                                         </TableCell>
                                         <TableCell align="right">
                                             <TextField
                                                 id="outlined-primary"
-                                                label=""
-                                                value={row.productName}
+                                                name="productName"
+                                                defaultValue={row.productName}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
+                                                onChange={this.handleEdit}
                                                 size="small"
                                             />
                                         </TableCell>
                                         <TableCell align="right">
                                             <TextField
                                                 id="outlined-primary"
-                                                label=""
-                                                value={row.qty}
+                                                name="qty"
+                                                defaultValue={row.qty}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
+                                                onChange={this.handleEdit}
                                                 size="small"
                                             />
                                         </TableCell>
                                         <TableCell align="right">
                                             <TextField
                                                 id="outlined-primary"
-                                                label=""
-                                                value={row.unitPrice}
+                                                name="unitPrice"
+                                                defaultValue={row.unitPrice}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
+                                                onChange={this.handleEdit}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -102,6 +140,9 @@ export class ProductList extends Component {
                                                 value={row.qty*row.unitPrice}
                                                 variant="outlined"
                                                 color="primary"
+                                                InputProps={{
+                                                    readOnly: true,
+                                                }}
                                                 className={classes.textBox}
                                                 size="small"
                                             />
@@ -123,6 +164,27 @@ export class ProductList extends Component {
                                 ))}
                             </TableBody>
                         </Table>
+                        <div className={classes.eventbuttons}>
+                            <Button 
+                                variant="contained" 
+                                size="small"
+                                className={classes.addbtn} 
+                                color="primary" 
+                                onClick={this.handleAdd}
+                            >
+                                ADD PRODUCT
+                            </Button>
+                            <Button 
+                                variant="contained" 
+                                startIcon={<SaveIcon />}
+                                size="small" 
+                                className={classes.savebtn}
+                                color="primary"
+                                onClick={this.handleSave}  
+                            >
+                                SAVE
+                            </Button>
+                        </div>
                     </TableContainer>
                 </Card>
             </div>
