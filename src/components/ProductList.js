@@ -13,6 +13,7 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete'
 import SaveIcon from '@material-ui/icons/Save';
 import productStyles from '../styles/productListStyle'
+import { v4 as uuidv4 } from 'uuid'
 import PropTypes from 'prop-types'
 import productData from '../json-data/product-data'
 
@@ -27,7 +28,9 @@ export class ProductList extends Component {
             productId: "",
             productName: "",
             qty: 0,
-            unitPrice: 0
+            unitPrice: 0,
+            save: false,
+            add: false
         }
     }
 
@@ -36,16 +39,17 @@ export class ProductList extends Component {
             "productId": "",
             "productName": "",
             "qty": 0,
-            "unitPrice": 0
+            "unitPrice": 0,
+            "index": null
         }
         const pList = this.state.productList
         pList.push(newObj)
         this.setState({
-            productList: pList
+            productList: pList,
         })
     }
 
-    handleEdit = (event) => {
+    handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
         })
@@ -58,17 +62,20 @@ export class ProductList extends Component {
         pList[len-1].productName = this.state.productName
         pList[len-1].qty = this.state.qty
         pList[len-1].unitPrice = this.state.unitPrice
+        pList[len-1].index = uuidv4()
         this.setState({
             productList: pList
         })
         console.log(productData)
     }
 
-    handleDelete = (index) => {
-        this.setState({
-            productList: this.state.productList.filter(item => item.productId !== index)
-        })
-    }
+   handleDelete = (index, i) => {
+       this.setState({
+           productList: this.state.productList.filter(item => item.index !== index)
+       })
+       productData.splice(i, 1)
+       console.log(productData)
+   }
     
     render() {
         const { classes } = this.props
@@ -90,16 +97,16 @@ export class ProductList extends Component {
                             </TableHead>
                             <TableBody>
                                 {this.state.productList.map((row, i) => (
-                                    <TableRow key={i}>
-                                        <TableCell component="th" scope="row">
+                                    <TableRow key={row.index}>
+                                        <TableCell align="right">
                                             <TextField
                                                 id="outlined-primary"
                                                 name="productId"
                                                 defaultValue={row.productId}
+                                                onChange={this.handleChange}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
-                                                onChange={this.handleEdit}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -111,7 +118,7 @@ export class ProductList extends Component {
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
-                                                onChange={this.handleEdit}
+                                                onChange={this.handleChange}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -123,7 +130,7 @@ export class ProductList extends Component {
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
-                                                onChange={this.handleEdit}
+                                                onChange={this.handleChange}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -135,7 +142,7 @@ export class ProductList extends Component {
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
-                                                onChange={this.handleEdit}
+                                                onChange={this.handleChange}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -162,7 +169,7 @@ export class ProductList extends Component {
                                                 color="secondary"
                                                 className={classes.button}
                                                 startIcon={<DeleteIcon />}
-                                                onClick={() => this.handleDelete(row.productId)}
+                                                onClick={() => this.handleDelete(row.index, i)}
                                             >
                                                 Delete
                                             </Button>
@@ -172,29 +179,29 @@ export class ProductList extends Component {
                             </TableBody>
                         </Table>
                         <div classname={classes.outerDiv}>
-                        <div className={classes.addiv}>
-                            <Button 
-                                variant="contained" 
-                                size="small"
-                                className={classes.addbtn} 
-                                color="primary" 
-                                onClick={this.handleAdd}
-                            >
-                                ADD PRODUCT
-                            </Button>
-                        </div>
-                        <div className={classes.savediv}>
-                            <Button 
-                                variant="contained" 
-                                startIcon={<SaveIcon />}
-                                size="small" 
-                                className={classes.savebtn}
-                                color="primary"
-                                onClick={this.handleSave}  
-                            >
-                                SAVE
-                            </Button>
-                        </div>
+                            <div className={classes.addiv}>
+                                <Button 
+                                    variant="contained" 
+                                    size="small"
+                                    className={classes.addbtn} 
+                                    color="primary" 
+                                    onClick={this.handleAdd}
+                                >
+                                    ADD PRODUCT
+                                </Button>
+                            </div>
+                            <div className={classes.savediv}>
+                                <Button 
+                                    variant="contained" 
+                                    startIcon={<SaveIcon />}
+                                    size="small" 
+                                    className={classes.savebtn}
+                                    color="primary"
+                                    onClick={this.handleSave}  
+                                >
+                                    SAVE
+                                </Button>
+                            </div>
                         </div>
                     </TableContainer>
                 </Card>
