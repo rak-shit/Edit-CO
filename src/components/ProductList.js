@@ -13,23 +13,25 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete'
 import productStyles from '../styles/productListStyle'
 import PropTypes from 'prop-types'
+import productData from '../json-data/product-data'
 
 const styles = productStyles
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 export class ProductList extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            productList: productData
+        }
+    }
+    
     render() {
         const { classes } = this.props
+        console.log(this.state.productList)
         return (
             <div>
                 <Card>
@@ -47,13 +49,13 @@ export class ProductList extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {rows.map((row) => (
-                                    <TableRow key={row.name}>
+                                {this.state.productList.map((row, i) => (
+                                    <TableRow key={i}>
                                         <TableCell component="th" scope="row">
                                             <TextField
                                                 id="outlined-primary"
                                                 label=""
-                                                value="Decolom Sheet"
+                                                value={row.productId}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
@@ -64,7 +66,7 @@ export class ProductList extends Component {
                                             <TextField
                                                 id="outlined-primary"
                                                 label=""
-                                                value="Decolom Sheet"
+                                                value={row.productName}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
@@ -75,7 +77,7 @@ export class ProductList extends Component {
                                             <TextField
                                                 id="outlined-primary"
                                                 label=""
-                                                value="Decolom Sheet"
+                                                value={row.qty}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
@@ -86,7 +88,7 @@ export class ProductList extends Component {
                                             <TextField
                                                 id="outlined-primary"
                                                 label=""
-                                                value="Decolom Sheet"
+                                                value={row.unitPrice}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
@@ -97,7 +99,7 @@ export class ProductList extends Component {
                                             <TextField
                                                 id="outlined-primary"
                                                 label=""
-                                                value="Decolom Sheet"
+                                                value={row.qty*row.unitPrice}
                                                 variant="outlined"
                                                 color="primary"
                                                 className={classes.textBox}
