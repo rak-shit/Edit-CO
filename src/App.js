@@ -16,7 +16,7 @@ function App() {
           <Forms bill={false} />
         </div>
       </Card>
-      <div>
+      <div className="product">
         <ProductList />
       </div>
     </div>

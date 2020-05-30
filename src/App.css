@@ -50,3 +50,12 @@
   margin: 10px;
 }
 
+@media screen and (max-width: 750px) {
+  .main {
+    width: 750px;
+  }
+  .product {
+    width: 750px;
+  }
+}
+
