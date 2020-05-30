@@ -119,6 +119,7 @@ export class ProductList extends Component {
     
     render() {
         const { classes } = this.props
+        const heading = ["Product ID", "Product Name", "QTY", "Unit Price", "Total Price", "Notes", ""]
         return (
             <div>
                 <Card className={classes.productCard}>
@@ -126,13 +127,11 @@ export class ProductList extends Component {
                         <Table className={classes.table} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell aligb="left" className={classes.tableHead}>Product ID</TableCell>
-                                    <TableCell align="left" className={classes.tableHead}>Product Name</TableCell>
-                                    <TableCell align="left" className={classes.tableHead}>QTY</TableCell>
-                                    <TableCell align="left" className={classes.tableHead}>Unit Price</TableCell>
-                                    <TableCell align="left" className={classes.tableHead}>Total Price</TableCell>
-                                    <TableCell align="left" className={classes.tableHead}>Notes</TableCell>
-                                    <TableCell align="left" className={classes.tableHead}></TableCell>
+                                    {
+                                        heading.map(el => 
+                                            <TableCell align="left" className={classes.tableHead}>{el}</TableCell>
+                                        )
+                                    }
                                 </TableRow>
                             </TableHead>
                             <TableBody>
