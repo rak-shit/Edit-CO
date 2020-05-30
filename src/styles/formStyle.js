@@ -1,7 +1,8 @@
 const billingStyles = theme => ({
     form: {
         width: "600px",
-        height: "550px"
+        height: "550px",
+        alignItems: "center"
     },
     block: {
         display: "inline-block",
@@ -12,13 +13,15 @@ const billingStyles = theme => ({
     formControl: {
         display: "block",
         width: "500px",
-        padding: "5px"
+        padding: "5px",
+        margin: "10px",
     },
     textBox: {
         width: "450px"
     },
     date: {
         display: "inline",
+        width: "50%"
     }
 });
 
