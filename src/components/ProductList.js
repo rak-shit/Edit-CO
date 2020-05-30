@@ -36,20 +36,23 @@ export class ProductList extends Component {
     }
 
     handleAdd = () => {
-        const newObj = {
-            "productId": "",
-            "productName": "",
-            "qty": 0,
-            "unitPrice": 0,
-            "notes": "",
-            "index": null
+        if (this.state.add === false) {
+            const newObj = {
+                "productId": "",
+                "productName": "",
+                "qty": 0,
+                "unitPrice": 0,
+                "notes": "",
+                "index": null
+            }
+            const pList = this.state.productList
+            pList.push(newObj)
+            this.setState({
+                productList: pList,
+                add: true
+            })
+            console.log(this.state.productList)
         }
-        const pList = this.state.productList
-        pList.push(newObj)
-        this.setState({
-            productList: pList,
-            add: true
-        })
     }
 
     handleChange = (event, index, i) => {
@@ -135,54 +138,26 @@ export class ProductList extends Component {
                             <TableBody>
                                 {this.state.productList.map((row, i) => (
                                     <TableRow key={row.index}>
-                                        <TableCell align="right">
-                                            <TextField
-                                                id="outlined-primary"
-                                                name="productId"
-                                                defaultValue={row.productId}
-                                                onChange={(event) => this.handleChange(event, row.index, i)}
-                                                variant="outlined"
-                                                color="primary"
-                                                className={classes.proid}
-                                                size="small"
-                                            />
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <TextField
-                                                id="outlined-primary"
-                                                name="productName"
-                                                defaultValue={row.productName}
-                                                variant="outlined"
-                                                color="primary"
-                                                className={classes.textBox}
-                                                onChange={(event) => this.handleChange(event, row.index, i)}
-                                                size="small"
-                                            />
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <TextField
-                                                id="outlined-primary"
-                                                name="qty"
-                                                defaultValue={row.qty}
-                                                variant="outlined"
-                                                color="primary"
-                                                className={classes.textBox}
-                                                onChange={(event) => this.handleChange(event, row.index, i)}
-                                                size="small"
-                                            />
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            <TextField
-                                                id="outlined-primary"
-                                                name="unitPrice"
-                                                defaultValue={row.unitPrice}
-                                                variant="outlined"
-                                                color="primary"
-                                                className={classes.textBox}
-                                                onChange={(event) => this.handleChange(event, row.index, i)}
-                                                size="small"
-                                            />
-                                        </TableCell>
+                                        {
+                                            Object.keys(row).map(key => {
+                                                if (key !== "index" && key !== "notes") {
+                                                    return (
+                                                        <TableCell align="right">
+                                                            <TextField
+                                                                id="outlined-primary"
+                                                                name={key}
+                                                                defaultValue={row[key]}
+                                                                variant="outlined"
+                                                                color="primary"
+                                                                className={classes.textBox}
+                                                                onChange={(event) => this.handleChange(event, row.index, i)}
+                                                                size="small"
+                                                            />
+                                                        </TableCell>
+                                                    )
+                                                }
+                                            })
+                                        }
                                         <TableCell align="right">
                                             <TextField
                                                 id="outlined-primary"
