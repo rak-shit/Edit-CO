@@ -17,7 +17,8 @@ export class Forms extends Component {
         super(props)
     
         this.state = {
-            selectedDate: this.props.bill ? billingData.orderDate : shippingData.orderDate
+            selectedDate: this.props.bill ? billingData.orderDate : shippingData.orderDate,
+            formData: this.props.bill ? billingData : shippingData
         }
     }
 
@@ -25,6 +26,20 @@ export class Forms extends Component {
         this.setState({
             selectedDate: date
         })
+    }
+
+    handleChange = (event) => {
+        if (this.props.bill === true) {
+            const data = this.state.formData
+            Object.keys(data).map(type => {
+                if (event.target.name === type) {
+                    data[type] = event.target.value
+                }
+            })
+            this.setState({
+                formData: data
+            })
+        }
     }
     
     render() {
@@ -43,45 +58,43 @@ export class Forms extends Component {
                     <div className="form">
                         <form className={classes.form} >
                             {
-                                this.props.bill ? 
-                                    Object.keys(billingData).map(type => 
-                                        {if (type !== "orderDate") {
-                                            return (
-                                                <FormControl variant="outlined" className={classes.formControl}>
-                                                    <TextField
-                                                        id="outlined-primary"
-                                                        label={type}
-                                                        value={billingData[type]}
-                                                        variant="outlined"
-                                                        color="primary"
-                                                        className={classes.textBox}
-                                                        size="small"
-                                                    />
-                                                </FormControl>
-                                            )
-                                        }
-                                    }   
-                                )
+                                Object.keys(this.state.formData).map(type => 
+                                {
+                                    if (type !== "orderDate") {
+                                        return (    
+                                            <FormControl variant="outlined" className={classes.formControl}>
+                                                 {
+                                                    this.props.bill ? 
+                                                        <TextField
+                                                            id="outlined-primary"
+                                                            label={type}
+                                                            name={type}
+                                                            defaultValue={this.state.formData[type]}
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            className={classes.textBox}
+                                                            onChange={this.handleChange}
+                                                            size="small"
+                                                        />
 
-                                :
-                                    Object.keys(shippingData).map(type => 
-                                        {if (type !== "orderDate") {
-                                            return (
-                                                <FormControl variant="outlined" className={classes.formControl}>
+                                                    : 
+                                                    
                                                     <TextField
                                                         id="outlined-primary"
                                                         label={type}
-                                                        value={shippingData[type]}
+                                                        name={type}
+                                                        value={this.state.formData[type]}
                                                         variant="outlined"
                                                         color="primary"
                                                         className={classes.textBox}
                                                         size="small"
                                                     />
-                                                </FormControl>
-                                            )
-                                        }
-                                    }   
-                                )
+
+                                                }
+                                            </FormControl>
+                                        )
+                                    }
+                                })
                             }
                             <MuiPickersUtilsProvider utils={DateFnsUtils} className={classes.date}>
                                 <KeyboardDatePicker

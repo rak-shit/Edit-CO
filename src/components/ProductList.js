@@ -143,7 +143,7 @@ export class ProductList extends Component {
                                                 onChange={(event) => this.handleChange(event, row.index, i)}
                                                 variant="outlined"
                                                 color="primary"
-                                                className={classes.textBox}
+                                                className={classes.proid}
                                                 size="small"
                                             />
                                         </TableCell>
@@ -193,7 +193,7 @@ export class ProductList extends Component {
                                                 InputProps={{
                                                     readOnly: true,
                                                 }}
-                                                className={classes.textBox}
+                                                className={classes.totalPrice}
                                                 size="small"
                                             />
                                         </TableCell>

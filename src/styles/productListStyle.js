@@ -25,7 +25,7 @@ const productStyles = theme => ({
        fontWeight: 600
     },
     productCard: {
-        margin: "10px",
+        marginTop: "10px",
     },
     tableHead: {
         fontWeight: 600,
@@ -33,6 +33,9 @@ const productStyles = theme => ({
     },
     delbtn: {
         fontWeight: 600
+    },
+    totalPrice: {
+        backgroundColor: "#bfbfbf"
     }
 });
 

@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  font-family: Roboto, sans-serif;
 }
 
 .App-logo {
@@ -41,7 +40,7 @@
 .main {
   align-items: center;
   width: 100%;
-  margin: 10px;
+  margin: 2px;
 }
 
 .form {
